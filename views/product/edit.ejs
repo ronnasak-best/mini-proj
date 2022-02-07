@@ -1,0 +1,115 @@
+<%- include('../layout/header') %>
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Edit Material</h1>
+
+    </div>
+
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Edit Material</h6>
+      </div>
+      <div class="card-body">
+        <form id="form" class="row g-3" action="/product/update" method="POST"  enctype="multipart/form-data">
+          <input type="hidden" value="<%= product[0]._id %>" name="update_id">
+          <div class="form-group col-md-6">
+            <label class="control-label col-sm">รหัส</label>
+            <div class="col-sm">
+              <input type="text" class="form-control" name="code"  value="<%= product[0].code %>" disabled>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="control-label col-sm">ชื่อ</label>
+            <div class="col-sm">
+              <input id="proname" type="text" class="form-control" name="name" value="<%= product[0].name %>">
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="control-label col-sm">หมวดหมู่</label>
+            <div class="col-sm ">
+              <select id="category" class="form-control" name="category">
+                <% for(let i=0; i < categorys.length; i++) { %>
+                  <option value="<%= categorys[i].id %>" <%- product[0].categorise[0]._id == categorys[i].id ? 'selected' : '' %> >
+                    <%= categorys[i].name %>
+                  </option>
+                  <% } %>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="control-label col-sm">หน่วยนับ</label>
+            <div class="col-sm">
+              <select id="unit" class="form-control" name="unit">
+                <% for(let i=0; i < unit.length; i++) { %>
+                  <option value="<%= unit[i].id %>" <%- product[0].unit[0]._id == unit[i].id ? 'selected' : '' %> >
+                    <%= unit[i].name %>
+                  </option>
+                  <% } %>
+              </select>        
+            </div>
+          </div> 
+        
+          <div class="form-group col-md-6">
+            <label class="control-label col-sm">จำนวนคงเหลือ</label>
+            <div class="col-sm">
+              <input type="text" class="form-control" name="quantity" value="<%= product[0].quantity %>" disabled>
+            </div>
+          </div>
+          <div class="form-group col-md-6">
+            <label class="control-label col-sm">สถานะ</label>
+            <div class="col-sm form-check form-check-inline">
+              <div class="col-sm-3">
+                <div class="form-check" >
+                  <input type="radio" class="form-check-input" name="status" id="membershipRadios1" value="1" <%- product[0].status == 1 ?'checked':''%> > Enabled
+                </div>
+              </div>
+              <div class="col-sm-2.5">
+                <div class="form-check">
+                  <input type="radio" class="form-check-input" name="status" id="membershipRadios2" value="0" <%- product[0].status == 0 ?'checked':''%>> Disabled
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="form-group col-md-12">
+            <label class="control-label col-sm">รายละเอียด</label>
+            <div class="col-sm">
+              <textarea id="description" class="form-control" cols="30" rows="4" name="description"><%= product[0].description %></textarea>
+            </div>
+          </div>
+          <div class="form-group col-md-6" >
+            <label class="control-label col-sm">รูปภาพ</label>
+            <div class="col-sm""> 
+              <div class="custom-file">
+              <input type="file" class="form-control" name="image" accept="image/*" onchange="preview()">
+              <input type="hidden" name="img" value="<%= product[0].image %>">
+            </div>
+            <div class="preview-image">
+              <img id="frame" src="/../images/products/<%= product[0].image %>" />
+            </div>
+            </div>
+          </div>
+
+
+        
+          <div class="form-group col-md-12">
+            <div class="col-sm-offset-4 col-sm">
+              <button type="submit" class="btn btn-primary">บันทึก</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+
+
+
+
+
+  </div>
+  <!-- /.container-fluid -->
+  <%- include('../layout/footer') %>

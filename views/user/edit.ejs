@@ -1,0 +1,87 @@
+<%- include('../layout/header') %>
+  <!-- Begin Page Content -->
+  <div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+      <h1 class="h3 mb-0 text-gray-800">Category</h1>
+
+    </div>
+
+    <div class="card shadow mb-4">
+      <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Add Category</h6>
+      </div>
+      <div class="card-body">
+        <form id="form" class="row g-3" action="/users/update" method="post">
+          <input type="hidden" value="<%=  user_list._id %>" name="update_id">
+          <div class="form-group col-md-12">
+            <label class="control-label col-sm">ชื่อ</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="proname" name="name" value="<%=user_list.name%>">
+            </div>
+          </div>
+          <div class="form-group col-md-12">
+            <label class="control-label col-sm">นามสกุล</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="lname" name="lname" value="<%=user_list.lname%>">
+            </div>
+          </div>
+          <div class="form-group col-md-12">
+            <label class="control-label col-sm">อีเมล</label>
+            <div class="col-sm-4">
+              <input type="email" class="form-control" id="email" name="email" value="<%=user_list.email%>">
+            </div>
+          </div>
+          <div class="form-group col-md-12">
+            <label class="control-label col-sm">ชื่อผู้ใช้</label>
+            <div class="col-sm-4">
+              <input type="text" class="form-control" id="username" name="username" value="<%=user_list.username%>">
+            </div>
+          </div>
+         
+          <div class="form-group col-md-6">
+            <label class="control-label col-sm">สิทธิ์การเข้าใช้งาน</label>
+            <div class="col-sm-4">
+              <select class="form-control" name="role" id="role">
+                <option value="admin" <%-user_list.role== "admin" ?'selected':''%> >admin</option>
+                <option value="user" <%-user_list.role== "user" ?'selected':''%>>user</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="form-group col-md-12">
+            <label class="control-label col-sm">สถานะ</label>
+            <div class="col-sm form-check form-check-inline">
+              <div class="col-sm-2">
+                <div class="form-check">
+                  <input type="radio" class="form-check-input" name="status" id="membershipRadios1" value="1" <%-
+                    user_list.status==1 ?'checked':''%> > Enabled
+                </div>
+              </div>
+              <div class="col-sm-2">
+                <div class="form-check">
+                  <input type="radio" class="form-check-input" name="status" id="membershipRadios2" value="0" <%-
+                    user_list.status==0 ?'checked':''%>> Disabled
+                </div>
+              </div>     
+            </div>
+          </div>
+
+          <div class="form-group col-md-6 row">                   
+              <div class="col-sm-2"><button type="submit" class="btn btn-primary ">บันทึก</button></div>
+              <div class="col-sm-3"><a onclick="defaultpass('<%= user_list._id %>')"  class="btn btn-danger ">reset password</a></div>          
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+
+
+
+
+
+  </div>
+  <!-- /.container-fluid -->
+  <%- include('../layout/footer') %>

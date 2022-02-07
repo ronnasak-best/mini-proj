@@ -1,0 +1,131 @@
+<%- include('../layout/header') %>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Category</h1>
+            <a href="/category/add" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
+                    class="fas fa-download fa-sm text-white-50"></i> Add New Category</a>
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+            </div>
+            <div class=" card-body row  ">
+                <div class="col-sm-6">
+                    <h6>เลขที่ใบเบิก : <%=disbursement[0].bill_number%>
+                    </h6>
+                    <h6>ขื่อผู้เบิก : <%=disbursement[0].user[0].name%>
+                            <%=disbursement[0].user[0].lname%>
+                    </h6>
+                    <h6>สถานะ :
+                        <% if(disbursement[0].status==0) {%>
+                            <td style="font-size: 20px;">
+                                <div class="badge badge-warning badge-pill">รออนุมัติ</div>
+                            </td>
+                            <%}else if(disbursement[0].status==1) { %>
+                                <td style="font-size: 20px;">
+                                    <div class="badge badge-success badge-pill">อนุมัติ</div>
+                                </td>
+                                <%}else if(disbursement[0].status==2) { %>
+                                    <td style="font-size: 20px;">
+                                        <div class="badge badge-danger badge-pill">ไม่อนุมัติ</div>
+                                    </td>
+                                    <%} %>
+                    </h6>
+                </div>
+                <div class="col-sm-6">
+                    <h6>วันที่เบิก : <%= moment(disbursement[0].date).add(543, 'years' ).format("LL") %></h6>
+                    <% if(disbursement[0].status==0) { %>
+                        <h6>ผู้อนุมัติ : </h6>
+                        <% }else{ %>
+                            <h6>ผู้อนุมัติ : <%=disbursement[0].approver[0].name%>
+                                    <%=disbursement[0].approver[0].lname%>
+                            </h6>
+                            <h6>วันที่เบิกอนุมัติ : <%= moment(disbursement[0].approver_date).add(543, 'years' ).format("LL") %></h6>
+                        <% } %>
+                        
+                </div>
+
+
+
+            </div>
+            <div class="card-body">
+                <%if(disbursement[0].status==0 && user.role=='admin'){%>
+                    <div class=" ">
+                        <a onclick="confirm('<%=disbursement[0]._id%>')" class="btn btn-success" href="#"
+                            role="button">อนุมัติ รายการขอเบิก</a>
+                        <a onclick="cancal('<%=disbursement[0]._id%>')" class="btn btn-danger" href="#"
+                            role="button">ยกเลิก รายการขอเบิก</a>
+                    </div>
+                    <%}%>
+                        <br>
+
+                        <div class="table-responsive">
+                            <table class="table "  width="100%" cellspacing="0">
+                                <thead>
+                                    <tr style="text-align: center;">
+
+                                        <th scope="col" style="width:15%">
+                                            <div class="py-2 text-uppercase">รูปภาพ</div>
+                                        </th>
+                                        <th scope="col" style="width:20%">
+                                            <div class="py-2 text-uppercase">รายการ</div>
+                                        </th>
+                                        <th scope="col" style="width:15%">
+                                            <div class="py-2 text-uppercase">จำนวนเหลือ</div>
+                                        </th>
+                                        <th scope="col" style="width:15%">
+                                            <div class="py-2 text-uppercase">หน่วย</div>
+                                        </th>
+                                        <th scope="col"></th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% Object.values(disbursement[0].cart.items).forEach(function(item){%>
+                                        <tr style="text-align: center;">
+                                            <td>
+                                                <img class="img-fluid rounded shadow-sm"
+                                                    src="/../images/products/<%=  item.item[0].image%>"
+                                                    style="width:80px;height: 60px;" alt="" />
+                                            </td>
+
+                                            <td class="align-middle " style="text-align: left;">
+                                                <p>รหัส : <%= item.item[0].code%>
+                                                </p>
+                                                <p>ชื่อ : <%= item.item[0].name%>
+                                                </p>
+                                                <span>รายละเอียด : <%= item.item[0].description%></span>
+                                            </td>
+                                            <td class="align-middle">
+                                                <%= item.qty%>
+                                            </td>
+                                            <td class="align-middle">
+                                                <%= item.item[0].unit[0].name%>
+                                            </td>
+
+                                            <td>
+                                                <a href="" type="button" value="<%= item._id%>"
+                                                    class="btn btn-warning"><i class="bi bi-cart"></i>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z" />
+                                                    </svg>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+
+
+    <%- include('../layout/footer') %>

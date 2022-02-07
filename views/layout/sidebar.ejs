@@ -1,0 +1,131 @@
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    <!-- Sidebar - Brand -->
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="dashboard"">
+        <div class="sidebar-brand-icon rotate-n-15">
+            <i class="fas fa-laugh-wink"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3">Mini Project</div>
+    </a>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider my-0">
+
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+        <a class="nav-link" href="dashboard">
+            <i class="fas fa-fw fa-tachometer-alt"></i>
+            <span>หน้าหลัก</span></a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsepro" aria-expanded="true"
+            aria-controls="collapsepro">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>รายการวัสดุ</span>
+        </a>
+        <div id="collapsepro" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Menu:</h6>
+                <a class="collapse-item" href="/product">รายการวัสดุ</a>
+                <% if ('admin'==user.role ) {%>
+                    <a class="collapse-item" href="/stock">เพิ่มจำนวน/รับเข้าสต็อก</a>
+                    <% } %>
+                        <a class="collapse-item" href="/carts">สร้างรายการขอเบิก</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Utilities Collapse Menu -->
+    <% if(user.role=='admin') {%>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="/disbursement"data-target="#collapseUtilities"
+            aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="fas fa-fw fa-wrench"></i>
+            <span>รายการขอเบิก&emsp;<span class="badge badge-danger" style="float: right;"><%= disburse%></span></span>
+        </a>
+    </li>
+    <%}else{%>
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="/disbursement/user"data-target="#collapseUtilities"
+            aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="fas fa-fw fa-wrench"></i>
+            <span>รายการขอเบิก&emsp;<span class="badge badge-danger" style="float: right;"><%= disburse%></span></span>
+        </a>
+    </li>
+    <%}%>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <% if (user.role=='admin' ) {%>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
+                aria-expanded="true" aria-controls="collapsePages">
+                <i class="fas fa-fw fa-folder"></i>
+                <span>รายงาน</span>
+            </a>
+            <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Login Screens:</h6>
+                    
+                    <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
+                    <div class="collapse-divider"></div>
+                    <h6 class="collapse-header">Other Pages:</h6>
+                    <a class="collapse-item" href="404.html">404 Page</a>
+                    <a class="collapse-item" href="blank.html">Blank Page</a>
+                </div>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                aria-expanded="true" aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>การตั้งค่า</span>
+            </a>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Menu:</h6>
+                    <a class="collapse-item" href="/category">หมวดหมู่</a>
+                    <a class="collapse-item" href="/unit">หน่วยนับ</a>
+                    <a class="collapse-item" href="/users">จัดการผู้ใช้</a>
+                </div>
+            </div>
+        </li>
+        <% }else{%>
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
+                    aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>การตั้งค่า</span>
+                </a>
+                <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Menu:</h6>
+                        <a class="collapse-item" href="/users/reset-password">เปลื่ยนรหัสผ่าน</a>
+                    </div>
+                </div>
+            </li>
+         <%}%>   
+           
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>ออกจากระบบ</span></a>
+            </li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider d-none d-md-block">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+
+
+
+</ul>
