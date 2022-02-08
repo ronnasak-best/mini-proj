@@ -102,7 +102,69 @@ router.post('/insert', (req, res) => {
     })
     Stock.saveStock(data, (err) => {
         if (err) console.log(err)
-        res.redirect('/stock')
+        res.redirect('/stock/stock_detail/' + req.body.product_id)
     })
 })
+
+router.get('/edit/(:id)', (req, res) => {
+    const stock_id = req.params.id
+    Stock.findById(stock_id, (err, stock) => {
+        if (err) console.log(err)
+        Product.aggregate([
+            {
+                $match: { _id: mongoose.Types.ObjectId(stock.product_id) }
+            }, {
+                $lookup: {
+                    from: "categorys", // collection name in db
+                    localField: "category",
+                    foreignField: "_id",
+                    as: "categorise"
+                }
+            },
+            {
+                $lookup: {
+                    from: "units", // collection name in db
+                    localField: "unit",
+                    foreignField: "_id",
+                    as: "unit"
+                }
+            }]).exec((err, doc) => {
+                res.render('stock/edit', { stock: stock, product: doc })
+            })
+    })
+})
+
+router.post('/update', (req, res) => {
+    const quantity = req.body.quantity //new quantity
+    const price = req.body.price
+    const description = req.body.description
+    const old_quantity = req.body.old_quantity //old quantity
+    if (old_quantity > quantity) {
+        Product.updateOne(
+            { _id: mongoose.Types.ObjectId(req.body.product_id) },
+            { $inc: { quantity: -(old_quantity - quantity), "metrics.orders": -1 } }, function (err, docs) {
+                if (err) {
+                    console.log(err)
+                }
+            })         
+    }else if(old_quantity < quantity){
+        Product.updateOne(
+            { _id: mongoose.Types.ObjectId(req.body.product_id) },
+            { $inc: { quantity: +(quantity - old_quantity), "metrics.orders": 1 } }, function (err, docs) {
+                if (err) {
+                    console.log(err)
+                }
+            })
+        
+    }
+    Stock.updateOne(
+        { _id: mongoose.Types.ObjectId(req.body.stock_id) },
+        { $set: { quantity: quantity, price: price, description: description } }, function (err, docs) {
+            if (err) {
+                console.log(err)
+            }
+        })
+    res.redirect('/stock/stock_detail/' + req.body.product_id)
+})
+
 module.exports = router
