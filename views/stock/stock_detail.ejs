@@ -41,11 +41,12 @@
                     </thead> 
                   
                     <tbody>
-                        <% Object.values(stocks).forEach(function(stock){%>
+                        <% let i=0; Object.values(stocks).forEach(function(stock) { i++  %>
+
                         <tr class="text-center">
-                            <td>1</td>
+                            <td><%= i %></td>
                             <td><%= stock.quantity%></td>
-                            <td><%= stock.price%></td>                                                                     
+                            <td> <%= stock.price%> ฿</td>                                                                     
                             <td><%= moment(stock.date).add(543, 'years').format("LL")%></td>
                             <td><%= stock.description%></td>
                           
