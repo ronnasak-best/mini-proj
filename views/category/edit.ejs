@@ -13,24 +13,24 @@
                             <h6 class="m-0 font-weight-bold text-primary">Add Cateory</h6>
                         </div>
                         <div class="card-body">                                                 
-                            <form class="row g-3" action="/category/update" method="post">
+                            <form id="form" class="row g-3" action="/category/update" method="post">
                               <input type="hidden" value="<%=  category._id %>" name="update_id">
                                 <div class="form-group col-md-6">
                                     <label class="control-label col-sm">รหัสหมวดหมู่</label>
                                     <div class="col-sm">
-                                      <input type="text" class="form-control" name="category_id" value="<%= category.category_id %>">
+                                      <input type="text" class="form-control" name="category_id" value="<%= category.category_id %>" disabled>
                                     </div>
                                   </div>
                                   <div class="form-group col-md-6">
                                       <label class="control-label col-sm">ชื่อหมวดหมู่</label>
                                       <div class="col-sm">
-                                        <input type="text" class="form-control" name="name" value="<%= category.name %>">
+                                        <input type="text" class="form-control" name="name" value="<%= category.name %>" id="proname">
                                       </div>
                                   </div>                   
                                   <div class="form-group col-md-12">
                                       <label class="control-label col-sm">รายละเอียด</label>
                                       <div class="col-sm">
-                                          <textarea class="form-control" cols="30" rows="4" name="description"><%= category.description %></textarea>
+                                          <textarea class="form-control" cols="30" rows="4" id="description"" name="description"><%= category.description %></textarea>
                                       </div>
                                   </div>
                                   <div class="form-group col-md-6">

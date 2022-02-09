@@ -102,6 +102,7 @@ router.post('/insert', (req, res) => {
     })
     Stock.saveStock(data, (err) => {
         if (err) console.log(err)
+        req.session.msg = {type: 'success',msg: 'บันทึกเรียบร้อย'}
         res.redirect('/stock/stock_detail/' + req.body.product_id)
     })
 })
@@ -164,6 +165,10 @@ router.post('/update', (req, res) => {
                 console.log(err)
             }
         })
+        req.session.msg = {
+            type: 'success',
+            msg: 'แก้ไขเรียบร้อย'
+          }
     res.redirect('/stock/stock_detail/' + req.body.product_id)
 })
 

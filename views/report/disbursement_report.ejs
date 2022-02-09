@@ -1,0 +1,75 @@
+<%- include('../layout/header') %>
+    <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+                        <h1 class="h3 mb-0 text-gray-800">Category</h1>
+                     
+                    </div>
+
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>ลำดับ</th>
+                                            <th>เลขที่ใบเบิก</th>
+                                            <th>วันที่เบิก</th>                                           
+                                            <th>วันที่อนุมัติเบิก</th>
+                                            <th>ชื่อ-นามสกุล</th>
+                                            <th>สถานะ</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead> 
+                                    <tbody>
+                                        <% for(let i=0;i < disbursements.length;i++) {%>
+                                        <tr>
+                                            <td><%= i+1%></td>
+                                            <td><%= disbursements[i].bill_number%></td>
+                                            <td><%= moment(disbursements[i].date).add(543, 'years').format("LL") %></td>
+                                            <td><%= moment(disbursements[i].approver_date).add(543, 'years').format("LL") %></td>
+                                            <td><%= disbursements[i].user[0].name%> <%= disbursements[i].user[0].lname%></td>                                            
+                                            <% if(disbursements[i].status == 0)  {%>
+                                                <td style="font-size: 20px;">
+                                                    <div class="badge badge-warning badge-pill">รออนุมัติ</div>
+                                                </td>
+                                            <%}else if(disbursements[i].status == 1)  { %>
+                                                <td style="font-size: 20px;">
+                                                    <div class="badge badge-success badge-pill">อนุมัติ</div>
+                                                </td>
+                                            <%}else if(disbursements[i].status == 2) { %>
+                                                <td style="font-size: 20px;">
+                                                    <div class="badge badge-danger badge-pill">ไม่อนุมัติ</div>
+                                                </td>
+                                            <%} %>   
+                                            <td>
+                                                <a href="/disbursement/detail/<%= disbursements[i]._id%>" type="button" value="" class="btn btn-primary"><i class="bi bi-card-checklist"></i>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
+                                                        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                                                        <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+                                                      </svg>
+                                                </a>
+                                            </td>
+                                        </tr>    
+                                        <% } %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                   
+                   
+                       
+                        
+
+                    
+
+                </div>
+                <!-- /.container-fluid -->
+<%- include('../layout/footer') %>
+            

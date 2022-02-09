@@ -12,24 +12,24 @@
                         <div class="card-header py-3">
                             <h6 class="m-0 font-weight-bold text-primary">Add Category</h6>
                         </div>
-                        <div class="card-body">                                                 
-                            <form class="row g-3" action="/category/insert" method="post">
+                        <div  class="card-body">                                                 
+                            <form id="form" class="row g-3" action="/category/insert" method="post">
                                 <div class="form-group col-md-6">
                                     <label class="control-label col-sm">รหัสหมวดหมู่</label>
                                     <div class="col-sm">
-                                      <input type="text" class="form-control" name="category_id">
+                                      <input type="text" class="form-control" name="category_id" disabled> 
                                     </div>
                                   </div>
                                   <div class="form-group col-md-6">
                                       <label class="control-label col-sm">ชื่อหมวดหมู่</label>
                                       <div class="col-sm">
-                                        <input type="text" class="form-control" name="name">
+                                        <input type="text" class="form-control" name="name" id="proname">
                                       </div>
                                   </div>                   
                                   <div class="form-group col-md-12">
                                       <label class="control-label col-sm">รายละเอียด</label>
                                       <div class="col-sm">
-                                          <textarea class="form-control" cols="30" rows="4" name="description"></textarea>
+                                          <textarea class="form-control" cols="30" rows="4" name="description" id="description"></textarea>
                                       </div>
                                   </div>
                                   <div class="form-group col-md-6">

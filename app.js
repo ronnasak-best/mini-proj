@@ -18,6 +18,7 @@ const UnitRouter = require('./routes/unit')
 const UserRouter = require('./routes/user')
 const CheckoutRouter = require('./routes/checkout')
 const CartRouter = require('./routes/carts')
+const ReportRouter = require('./routes/report')
 
 passport.use(
     new LocalStrategy((username, password, cb) => {
@@ -92,6 +93,7 @@ app.use('/carts',isLoggedIn,CartRouter)
 app.use('/users',isLoggedIn,UserRouter)
 app.use('/unit',isAdmin,UnitRouter)
 app.use('/checkout',isLoggedIn,CheckoutRouter)
+app.use('/reports',isAdmin,ReportRouter)
 
 
 

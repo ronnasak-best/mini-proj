@@ -8,6 +8,8 @@ const email = document.getElementById('email') || {}
 const lname = document.getElementById('lname') || {}
 const password = document.getElementById('password') || {value:"12345678"}
 const username = document.getElementById('username') || {}
+const quantity = document.getElementById('quantity') || {}
+const price = document.getElementById('price') || {value:"12"}
 
 
 form.addEventListener('submit', e => {
@@ -19,21 +21,28 @@ form.addEventListener('submit', e => {
 
 
 function setError(input, message) {
-    const formControl = input;
+    const formControl = input
     //const small = formControl.querySelector('small');
-    formControl.className = 'form-control is-invalid';
+    formControl.className = 'form-control is-invalid'
     //small.innerText = message;
 }
 
 function setSuccess(input) {
-    const formControl = input;
-    formControl.className = 'form-control is-valid';
+    const formControl = input
+    formControl.className = 'form-control is-valid'
 }
 
 const isValidEmail = email => {
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(String(email).toLowerCase())
 }
+function isInDesiredForm(str) {
+    return /^\+?\d+$/.test(str)
+}
+function isPrice(str) {
+    return /^\+?\d+$/.test(str)
+}
+
 
 const validateInputs = () => {
     const nameValue = proname.value
@@ -45,6 +54,8 @@ const validateInputs = () => {
     const emailValue = email.value
     const usernameValue = username.value
     const passwordValue = password.value
+    const quantityValue = quantity.value
+    const priceValue = price.value
     
 
     if (nameValue === '') {
@@ -110,13 +121,26 @@ const validateInputs = () => {
             setSuccess(password)
         }
     }
-    // if (password2Value === '') {
-    //     setError(password2, 'Please confirm your password')
-    // } else if (password2Value !== passwordValue) {
-    //     setError(password2, "Passwords doesn't match")
-    // } else {
-    //     setSuccess(password2)
-    // }
+    
+    if(quantityValue === ''){
+        setError(quantity, 'Quantity is required')
+        return false
+    }else if (!isInDesiredForm(quantityValue)) {
+        setError(quantity, 'Quantity must be a number')
+    }else{
+        setSuccess(quantity)
+    }
+
+    if(priceValue === ''){
+        setError(price, 'Price is required')
+        return false
+    }else if (!isPrice(priceValue)) {
+        setError(price, 'Price must be a number')
+        return false
+    }else{
+        setSuccess(price)
+    }
+    
     return true
 }
 

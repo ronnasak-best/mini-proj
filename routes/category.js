@@ -23,6 +23,7 @@ router.post('/insert',(req,res,next)=>{
     })
     Category.saveCategory(data,(err)=>{
         if(err) console.log(err)
+        req.session.msg = {type: 'success',msg: 'บันทึกเรียบร้อย'}
         res.redirect('/category')
     })
 })
@@ -47,6 +48,7 @@ router.post('/update',(req,res,next)=>{
     }
     //อัพเดตข้อมูล
     Category.findByIdAndUpdate(update_id,data,{useFindAndModify:false}).exec(err=>{
+        req.session.msg = {type: 'success',msg: 'แก้ไขเรียบร้อย'}
         res.redirect('/category')
     })
 })

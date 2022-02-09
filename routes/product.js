@@ -74,10 +74,7 @@ router.post('/insert', upload.single("image"), async (req, res,) => {
     })
     Product.saveProduct(data, (err) => {
         if (err) console.log(err)
-        req.session.msg = {
-            type: 'success',       
-            msg: 'เรียบร้อย'
-          }
+        req.session.msg = {type: 'success',msg: 'บันทึกเรียบร้อย'}
         res.redirect('/product')
     })
 
@@ -135,10 +132,7 @@ router.post('/update', upload.single("image"), (req, res, next) => {
     //อัพเดตข้อมูล
     //console.log(category_id)
     Product.findByIdAndUpdate(update_id, data, { useFindAndModify: false }).exec(err => {
-        req.session.msg = {
-            type: 'success',       
-            msg: 'รหัสผ่านรีเช็ตเรียบร้อย'
-          }
+        req.session.msg = {type: 'success',msg: 'แก้ไขเรียบร้อย'}
         res.redirect('/product')
     })
 

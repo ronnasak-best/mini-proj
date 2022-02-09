@@ -24,14 +24,14 @@
                     </p>
                     <hr>
                 </div>
-                <form class="row g-3" action="/stock/update" method="POST">
+                <form  id="form" class="row g-3" action="/stock/update" method="POST">
                     <input type="hidden" name="product_id" value="<%= product[0]._id%>">
                     <input type="hidden" name="stock_id" value="<%= stock._id%>">
                     <input type="hidden" name="old_quantity" value="<%= stock.quantity%>">
                     <div class="form-group col-md-6">
                         <label class="control-label col-sm">จำนวนรับเข้า</label>
                         <div class="col-sm">
-                            <input type="number" class="form-control" name="quantity"  min="0" value="<%= stock.quantity%>">
+                            <input type="number" class="form-control" name="quantity"  value="<%= stock.quantity%>" id="quantity">
                         </div>
                     </div>
                     <div class="form-group col-md-6">
@@ -40,15 +40,13 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text" id="basic-addon1">฿</span>
                             </div>
-                            <input type="number" class="form-control" id="price" name="price"  min="0" value="<%= stock.price%>" pattern="^\d+(?:\.\d{1,2})?$" onblur="
-                            this.parentNode.parentNode.style.backgroundColor=/^\d+(?:\.\d{1,2})?$/.test(this.value)?'inherit':'red'
-                            ">
+                            <input type="number" class="form-control" id="price" name="price" " value="<%= stock.price%>">
                         </div>
                     </div>
                     <div class="form-group col-md-12">
                         <label class="control-label col-sm">หมายเหตู</label>
                         <div class="col-sm">
-                            <input type="text" class="form-control" name="description" value="<%= stock.description%>">
+                            <input type="text" class="form-control" name="description" value="<%= stock.description%>" >
                         </div>
                     </div>
                     <div class="form-group col-md-12">
