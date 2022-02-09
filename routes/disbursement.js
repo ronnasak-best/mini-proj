@@ -118,6 +118,48 @@ router.get('/adminCancel/(:id)',async(req,res,next)=>{
         res.redirect('/disbursement')
     })
 })
-
-
+router.get('/pending', (req, res) => {
+    Disbursement.aggregate([{
+        $match: { status:0 }
+    }, {
+        $lookup: {
+            from: 'users',
+            localField: 'user',
+            foreignField: '_id',
+            as: 'user'
+        }
+    }, {
+        $lookup: {
+            from: 'users',
+            localField: 'approver',
+            foreignField: '_id',
+            as: 'approver'
+        }
+    }]).exec((err, doc) => {
+      //  console.log(doc);
+        res.render('disbursement/index', { disbursements: doc })
+    })
+})
+router.get('/disapproved', (req, res) => {
+    Disbursement.aggregate([{
+        $match: { status:2 }
+    }, {
+        $lookup: {
+            from: 'users',
+            localField: 'user',
+            foreignField: '_id',
+            as: 'user'
+        }
+    }, {
+        $lookup: {
+            from: 'users',
+            localField: 'approver',
+            foreignField: '_id',
+            as: 'approver'
+        }
+    }]).exec((err, doc) => {
+      //  console.log(doc);
+        res.render('disbursement/index', { disbursements: doc })
+    })
+})
 module.exports = router

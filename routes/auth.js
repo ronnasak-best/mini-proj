@@ -6,9 +6,9 @@ const User = require('../models/user')
 const Disbursement =require('../models/disbursement')
 
 module.exports = isLoggedIn = async(req, res, next) => {
-    const count = await Disbursement.find({status:0}).count()
     if (req.isAuthenticated()) {
-        res.locals.disburse =count
+        if(req.user.role == 'admin'){res.locals.disburse = await Disbursement.find({status:0}).count()}
+        else{res.locals.disburse = await Disbursement.find({$and:[{user:req.user.id},{status:0}]}).count()}
         res.locals.user = req.user
         next()
     } else {

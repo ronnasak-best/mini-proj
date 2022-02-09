@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt')
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy;
 const User = require('./models/user')
+const Disbursement =require('./models/disbursement')
 //router
 const indexRouter = require('./routes/index')
 const ProductRouter = require('./routes/product')
@@ -59,6 +60,8 @@ app.use(session({
     cookie: { maxAge : 3600000 }
 
 }))
+
+
 
 app.use((req, res, next)=>{
     res.locals.msg = req.session.msg
