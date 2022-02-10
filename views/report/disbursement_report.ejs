@@ -10,7 +10,16 @@
 
                     <div class="card shadow mb-4">
                         <div class="card-header py-3">
-                            <h6 class="m-0 font-weight-bold text-primary">DataTables Example</h6>
+                            <div class="row m-0 p-0">
+                                <div class="col-sm-6 row ">
+                                    <div class="col-sm-2"><h5>ค้นหา</h5></div>
+                                    <div class="col-sm-6 input-group mb-2">
+                                        <input type="month" class="form-control" id="date1" value="<%= date%>">
+                                    </div>
+                                  
+                                </div>
+                               
+                            </div>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -70,6 +79,12 @@
                     
 
                 </div>
+                <script>
+                    document.getElementById('date1').onchange = function() {
+                    let url = "/reports/disbursement_report/search/" + $(this).val() // get selected value
+                             window.location = url            
+                    } 
+                  </script>
                 <!-- /.container-fluid -->
 <%- include('../layout/footer') %>
             

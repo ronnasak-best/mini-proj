@@ -20,10 +20,39 @@ router.get('/disbursement_report',(req, res, next) => {
             as: 'approver'
         }
     }]).exec((err, doc) => {
-        res.render('report/disbursement_report', { disbursements: doc })
+        res.render('report/disbursement_report', { disbursements: doc,date:Date.now()})
     })
 
 })
+router.get('/disbursement_report/search/(:id)', (req, res) => {
+    let date = req.params.id
+    let date_split = date.split('-')
+    let year = date_split[0]
+    let month = date_split[1]
+    Disbursement.aggregate([{
+        $lookup: {
+            from: 'users',
+            localField: 'user',
+            foreignField: '_id',
+            as: 'user'
+        }
+    }, {
+        $lookup: {
+            from: 'users',
+            localField: 'approver',
+            foreignField: '_id',
+            as: 'approver'
+        }
+
+    },{
+        $match: {"$expr": { $and: [{ "$eq": [{ "$month": "$date" },parseInt(month)] }, { "$eq": [{ "$year": "$date" },parseInt(year)] }] }}
+    }]).exec((err, doc) => {
+         res.render('report/disbursement_report', { disbursements: doc ,date:date})
+    })
+})
+
+
+
 router.get('/out_of_stock',(req, res, next) => {
     Product.aggregate([
         {

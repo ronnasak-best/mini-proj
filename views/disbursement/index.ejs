@@ -10,9 +10,13 @@
 
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <dir class="row m-0 p-0">
-                    <div class="col-sm-6 ">
-                        <h6 class=" font-weight-bold text-primary">DataTables Example</h6>
+                <div class="row m-0 p-0">
+                    <div class="col-sm-6 row ">
+                        <div class="col-sm-2"><h5>ค้นหา</h5></div>
+                        <div class="col-sm-6 input-group mb-2">
+                            <input type="month" class="form-control" id="date" value="<%= date%>">
+                        </div>
+                      
                     </div>
                     <div class="col-sm-6 text-right">
                         <a href="/disbursement/pending" style="font-size: 15px; margin-right: 20px;"
@@ -20,7 +24,7 @@
                         <a href="/disbursement/disapproved" style="font-size: 15px;"
                             class="badge badge-danger badge-pill">ไม่อนุมัติ</a>
                     </div>
-                </dir>
+                </div>
 
 
             </div>
@@ -91,13 +95,15 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
+        
 
     </div>
+    
+     <script>
+       document.getElementById('date').onchange = function() {
+       let url = "/disbursement/search/" + $(this).val() // get selected value
+                window.location = url           
+       } 
+     </script>
     <!-- /.container-fluid -->
     <%- include('../layout/footer') %>
