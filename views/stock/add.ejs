@@ -13,17 +13,21 @@
                 <h6 class="m-0 font-weight-bold text-primary">Receive Product</h6>
             </div>
             <div class="card-body">
-                <div>
-                    <img class="card-img-top img-fluid" src="/../images/products/<%= product[0].image%>"
+                <div class="row">
+                    <div class="col-sm-2"><img class="card-img-top img-fluid" src="/../images/products/<%= product[0].image%>"
                         style="width: 150px;height: 100px;" alt="" />
-                    <p>รายการ : <%= product[0].name%>
-                    </p>
-                    <p>หมวดหมู่ : <%= product[0].categorise[0].name%>
-                    </p>
-                    <p>หน่วยนับ :<%= product[0].unit[0].name%>
-                    </p>
-                    <hr>
-                </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <p class="mb-1">รายการ : <%= product[0].name%>
+                        </p>
+                        <p class="mb-1">หมวดหมู่ : <%= product[0].categorise[0].name%>
+                        </p>
+                        <p>หน่วยนับ :<%= product[0].unit[0].name%>
+                        </p>
+                        
+                    </div>
+                    
+                </div><hr>
                 <form id="form" class="row g-3" action="/stock/insert" method="POST">
                     <input type="hidden" name="product_id" value="<%= product[0]._id%>">
                     <div class="form-group col-md-6">

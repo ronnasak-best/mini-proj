@@ -40,9 +40,57 @@ router.get('/', (req, res, next) => {
             as: "units"
         }
     }
-    ]).exec((err, doc) => {
-        res.render('product/index', { product: doc })
+    ]).exec((err,products) => {
+        Product.aggregate([{
+            $group: { _id: '$category' }
+        }, {
+            $lookup: {
+                from: 'categorys',
+                localField: '_id',
+                foreignField: '_id',
+                as: 'categorise' // collection name in db
+            }
+        }]).exec((err, categorys) => {
+            res.render('product/index', { categorys: categorys, products: products, cat_select:'' })
+        })
 
+    })
+
+})
+router.get('/category/:id', async (req, res, next) => {
+    res.locals.count = req.session.cart || 0
+    Product.aggregate([{
+        $match: {
+            category: mongoose.Types.ObjectId(req.params.id) 
+        }
+    }, {
+        $lookup: {
+            from: "categorys", // collection name in db
+            localField: "category",
+            foreignField: "_id",
+            as: "categorise"
+        }
+    }, {
+        $lookup: {
+            from: "units", // collection name in db
+            localField: "unit",
+            foreignField: "_id",
+            as: "units"
+        }
+    }
+    ]).exec((err, products) => {
+        Product.aggregate([{
+            $group: { _id: '$category' }
+        }, {
+            $lookup: {
+                from: 'categorys',
+                localField: '_id',
+                foreignField: '_id',
+                as: 'categorise'
+            }
+        }]).exec((err, categorys) => {
+            res.render('product/index', { categorys: categorys, products: products, cat_select: req.params.id })
+        })
     })
 
 })

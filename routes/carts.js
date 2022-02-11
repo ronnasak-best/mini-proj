@@ -26,7 +26,7 @@ router.get('/', (req, res, next) => {
                 from: 'categorys',
                 localField: '_id',
                 foreignField: '_id',
-                as: 'categorise'
+                as: 'categorise' // collection name in db
             }
         }]).exec((err, categorys) => {
             res.render('carts/index', { categorys: categorys, products: products, cat_select:'' })

@@ -9,67 +9,93 @@
         </div>
         <%if (msg) {%>
             <div style="text-align: center" class="alert alert-<%-msg.type%>">
-              <button type="button" class="close" data-dismiss="alert">&times;</button>
-              </strong> <%-msg.msg%>
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </strong>
+                <%-msg.msg%>
             </div>
             <%}%>
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Unit</h1>
-            <a href="/stock/add/<%= product[0]._id%>" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
-                    class="fas fa-download fa-sm text-white-50"></i> Add New Unit</a>
-        </div>
-        <div class="card shadow col-sm-8">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Receive Product</h6>
-            </div>
-            <div class="card-body">
-                <div>
-                    <img class="card-img-top img-fluid" src="/../images/products/<%= product[0].image%>"
-                        style="width: 150px;height: 100px;" alt="" />
-                    <p>รายการ : <%= product[0].name%>
-                    </p>
-                    <p>หมวดหมู่ : <%= product[0].categorise[0].name%>
-                    </p>
-                    <p>หน่วยนับ :<%= product[0].unit[0].name%>
-                    </p>
-                    <hr>
-                </div>
-                <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
-                    <thead >
-                        <tr class="text-center">
-                            <th>ลำดับ</th>
-                            <th>จำนวนรับเข้า</th>
-                            <th>ราคารับเข้า</th>
-                            <th>วันที่รับเข้า</th>
-                            <th>หมายเหตุ</th>
-                            <th>แก้ไข</th>
-                        </tr>
-                    </thead> 
-                  
-                    <tbody>
-                        <% let i=0; Object.values(stocks).forEach(function(stock) { i++  %>
 
-                        <tr class="text-center">
-                            <td><%= i %></td>
-                            <td><%= stock.quantity%></td>
-                            <td> <%= stock.price%> ฿</td>                                                                     
-                            <td><%= moment(stock.date).add(543, 'years').format("LL")%></td>
-                            <td><%= stock.description%></td>
-                          
-                            <td>
-                                <a href="/stock/edit/<%= stock._id%>" type="button" value="<%= stock._id%>" class="btn btn-warning"><i class="bi bi-pencil-square"></i>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
-                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                  </svg>
-                                </a>
-                            </td>
-                        </tr>    
-                        <% }) %>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+                <div class="card shadow col-sm-8">
+                    <div class="card-header py-3">
+                        <div class="row m-0 p-0">
+                            <div class="col-sm row ">
+                                <h6 class=" font-weight-bold text-primary">Receive Product</h6>
+                            </div>
+                            <div class="text-right ">
+                                <a href="/stock/add/<%= product[0]._id%>"
+                                    class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
+                                        class="fas fa-download fa-sm text-white-50"></i> Add New Unit</a>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-2"><img class="card-img-top img-fluid" src="/../images/products/<%= product[0].image%>"
+                                style="width: 150px;height: 100px;" alt="" />
+                            </div>
+                            <div class="col-sm-6">
+                                <p class="mb-1">รายการ : <%= product[0].name%>
+                                </p>
+                                <p class="mb-1">หมวดหมู่ : <%= product[0].categorise[0].name%>
+                                </p>
+                                <p>หน่วยนับ :<%= product[0].unit[0].name%>
+                                </p>
+                                
+                            </div>
+                            
+                        </div><hr>
+                        <table class="table table-bordered " id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr class="text-center">
+                                    <th>ลำดับ</th>
+                                    <th>จำนวนรับเข้า</th>
+                                    <th>ราคารับเข้า</th>
+                                    <th>วันที่รับเข้า</th>
+                                    <th>หมายเหตุ</th>
+                                    <th>แก้ไข</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <% let i=0; Object.values(stocks).forEach(function(stock) { i++ %>
+
+                                    <tr class="text-center">
+                                        <td>
+                                            <%= i %>
+                                        </td>
+                                        <td>
+                                            <%= stock.quantity%>
+                                        </td>
+                                        <td>
+                                            <%= stock.price%> ฿
+                                        </td>
+                                        <td>
+                                            <%= moment(stock.date).add(543, 'years' ).format("LL")%>
+                                        </td>
+                                        <td>
+                                            <%= stock.description%>
+                                        </td>
+
+                                        <td>
+                                            <a href="/stock/edit/<%= stock._id%>" type="button" value="<%= stock._id%>"
+                                                class="btn btn-warning"><i class="bi bi-pencil-square"></i>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                    fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                    <path
+                                                        d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                    <path fill-rule="evenodd"
+                                                        d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
     </div>
 
 
