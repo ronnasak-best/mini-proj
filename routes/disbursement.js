@@ -8,6 +8,8 @@ const AuthRouter = require('./auth')
 
 
 router.get('/', isAdmin, (req, res, next) => {
+    const timeElapsed=Date.now()
+    const today = new Date(timeElapsed)
     Disbursement.aggregate([{
         $lookup: {
             from: 'users',
@@ -23,7 +25,7 @@ router.get('/', isAdmin, (req, res, next) => {
             as: 'approver'
         }
     }]).exec((err, doc) => {
-        res.render('disbursement/index', { disbursements: doc ,date:Date.now()})
+        res.render('disbursement/index', { disbursements: doc ,date:today.toLocaleDateString()})
     })
 
 })
@@ -119,6 +121,8 @@ router.get('/adminCancel/(:id)', async (req, res, next) => {
     })
 })
 router.get('/pending', (req, res) => {
+    const timeElapsed=Date.now()
+    const today = new Date(timeElapsed)
     Disbursement.aggregate([{
         $match: { status: 0 }
     }, {
@@ -137,10 +141,12 @@ router.get('/pending', (req, res) => {
         }
     }]).exec((err, doc) => {
         //  console.log(doc);
-        res.render('disbursement/index', { disbursements: doc })
+        res.render('disbursement/index', { disbursements: doc ,date:today.toLocaleDateString()})
     })
 })
 router.get('/disapproved', (req, res) => {
+    const timeElapsed=Date.now()
+    const today = new Date(timeElapsed)
     Disbursement.aggregate([{
         $match: { status: 2 }
     }, {
@@ -159,7 +165,7 @@ router.get('/disapproved', (req, res) => {
         }
     }]).exec((err, doc) => {
         //  console.log(doc);
-        res.render('disbursement/index', { disbursements: doc })
+        res.render('disbursement/index', { disbursements: doc ,date:today.toLocaleDateString()})
     })
 })
 

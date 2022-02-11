@@ -5,6 +5,8 @@ const Product = require('../models/products')
 const mongoose = require('mongoose')
 
 router.get('/disbursement_report',(req, res, next) => {
+    const timeElapsed=Date.now()
+    const today = new Date(timeElapsed)
     Disbursement.aggregate([{
         $lookup: {
             from: 'users',
@@ -20,7 +22,7 @@ router.get('/disbursement_report',(req, res, next) => {
             as: 'approver'
         }
     }]).exec((err, doc) => {
-        res.render('report/disbursement_report', { disbursements: doc,date:Date.now()})
+        res.render('report/disbursement_report', { disbursements: doc,date:today.toLocaleDateString() })
     })
 
 })

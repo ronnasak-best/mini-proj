@@ -51,7 +51,13 @@
 <script src="/../vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
 <script src="/../js/validation.js"></script>
+
+<!-- sweetalert -->
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/../js/sweetalert.js"></script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/1.0.10/datepicker.min.js"></script>
 
 <script>
     function preview() {
@@ -59,7 +65,20 @@
     }
 </script>
 
+<script>
+    $('.datepicker').datepicker({
+        format: "yyyy-mm",
+        startView: "months",
+        minViewMode: "months",
+        days: ["อาทิตย์", "จันทร์", "อังคาร", "พุธ", "พฤหัส", "ศุกร์", "เสาร์", "อาทิตย์"],
+        daysShort: ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"],
+        daysMin: ["อา", "จ", "อ", "พ", "พฤ", "ศ", "ส", "อา"],
+        months: ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม"],
+        monthsShort: ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ย.", "พ.ค.", "มิ.ย.", "ก.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."],
+        today: "วันนี้"
+    })
 </script>
+
 
 
 </body>
