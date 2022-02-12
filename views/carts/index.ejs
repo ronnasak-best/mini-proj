@@ -24,31 +24,33 @@
                 </div>
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Request to Withdraw</h6>
-                    </div>
-
-                    <div class="card-body">
-                        <div class="col-md-3">
-                            <select class="form-control" name="category" id="category">
-                                <%if (cat_select=='' ){%>
-                                    <option value="all" selected>ทั้งหมด</option>
-                                    <% Object.values(categorys).forEach(function(item){%>
-                                        <option value="<%= item.categorise[0]._id %>">
-                                            <%= item.categorise[0].name %>
-                                        </option>
-                                        <% }) %>
-                                            <% }else{ %>
-                                                <option value="all" selected>ทั้งหมด</option>
-                                                <% Object.values(categorys).forEach(function(item){%>
-                                                    <option value="<%= item.categorise[0]._id %>"
-                                                        <%=cat_select.toString()==item.categorise[0]._id.toString()
-                                                        ? 'selected' : '' %>>
-                                                        <%= item.categorise[0].name %>
-                                                    </option>
-                                                    <% }) %>
-                                                        <% } %>
-                            </select>
+                        <div class="form-group row">
+                            <label class="col-sm-0 col-form-label" for="">ค้นหา ::</label>
+                            <div class="col-sm-3">
+                                <select class="form-control" name="category" id="category">
+                                    <%if (cat_select=='' ){%>
+                                        <option value="all" selected>ทั้งหมด</option>
+                                        <% Object.values(categorys).forEach(function(item){%>
+                                            <option value="<%= item.categorise[0]._id %>">
+                                                <%= item.categorise[0].name %>
+                                            </option>
+                                            <% }) %>
+                                                <% }else{ %>
+                                                    <option value="all" selected>ทั้งหมด</option>
+                                                    <% Object.values(categorys).forEach(function(item){%>
+                                                        <option value="<%= item.categorise[0]._id %>"
+                                                            <%=cat_select.toString()==item.categorise[0]._id.toString()
+                                                            ? 'selected' : '' %>>
+                                                            <%= item.categorise[0].name %>
+                                                        </option>
+                                                        <% }) %>
+                                                            <% } %>
+                                </select>
                             </div>
+                        </div>
+                     
+                    </div>
+                    <br>
                         <div class="table-responsive  ">
                             <table class="table " id="dataTable" width="100%" cellspacing="0">
                                 <thead>

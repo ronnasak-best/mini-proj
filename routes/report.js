@@ -52,7 +52,30 @@ router.get('/disbursement_report/search/(:id)', (req, res) => {
          res.render('report/disbursement_report', { disbursements: doc ,date:date})
     })
 })
+router.get('/disbursement_report/detail/(:id)', (req, res) => {
+    Disbursement.aggregate([{
+        $match: { _id: mongoose.Types.ObjectId(req.params.id) }
+    }, {
+        $lookup: {
+            from: 'users',
+            localField: 'user',
+            foreignField: '_id',
+            as: 'user'
+        }
+    }, {
+        $lookup: {
+            from: 'users',
+            localField: 'approver',
+            foreignField: '_id',
+            as: 'approver'
+        }
+    }]).exec((err, doc) => {
+        //  console.log(doc);
+        res.render('disbursement/detail', { disbursement: doc })
+    })
 
+
+})
 
 
 router.get('/out_of_stock',(req, res, next) => {
