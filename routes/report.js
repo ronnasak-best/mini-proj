@@ -71,7 +71,7 @@ router.get('/disbursement_report/detail/(:id)', (req, res) => {
         }
     }]).exec((err, doc) => {
         //  console.log(doc);
-        res.render('disbursement/detail', { disbursement: doc })
+        res.render('report/disbursement_report', { disbursement: doc })
     })
 
 

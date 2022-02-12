@@ -1,0 +1,111 @@
+<%- include('../layout/header') %>
+    <!-- Begin Page Content -->
+    <div class="container-fluid">
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Request List</h1>
+            
+        </div>
+
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Request List</h6>
+            </div>
+            <div class=" card-body row  ">
+                <div class="col-sm-6">
+                    <h6>เลขที่ใบเบิก : <%=disbursement[0].bill_number%>
+                    </h6>
+                    <h6>ขื่อผู้เบิก : <%=disbursement[0].user[0].name%>
+                            <%=disbursement[0].user[0].lname%>
+                    </h6>
+                    <h6>สถานะ :
+                        <% if(disbursement[0].status==0) {%>
+                            <td style="font-size: 20px;">
+                                <div class="badge badge-warning badge-pill">รออนุมัติ</div>
+                            </td>
+                            <%}else if(disbursement[0].status==1) { %>
+                                <td style="font-size: 20px;">
+                                    <div class="badge badge-success badge-pill">อนุมัติ</div>
+                                </td>
+                                <%}else if(disbursement[0].status==2) { %>
+                                    <td style="font-size: 20px;">
+                                        <div class="badge badge-danger badge-pill">ไม่อนุมัติ</div>
+                                    </td>
+                                    <%} %>
+                    </h6>
+                </div>
+                <div class="col-sm-6">
+                    <h6>วันที่เบิก : <%= moment(disbursement[0].date).add(543, 'years' ).format("LL") %></h6>
+                    <% if(disbursement[0].status==0) { %>
+                        <h6>ผู้อนุมัติ : </h6>
+                        <% }else{ %>
+                            <h6>ผู้อนุมัติ : <%=disbursement[0].approver[0].name%>
+                                    <%=disbursement[0].approver[0].lname%>
+                            </h6>
+                            <h6>วันที่เบิกอนุมัติ : <%= moment(disbursement[0].approver_date).add(543, 'years' ).format("LL") %></h6>
+                        <% } %>
+                        
+                </div>
+
+
+
+            </div>
+            <div class="card-body">              
+                        <div class="table-responsive">
+                            <table class="table "  width="100%" cellspacing="0">
+                                <thead>
+                                    <tr style="text-align: center;">
+
+                                        <th scope="col" style="width:15%">
+                                            <div class="py-2 text-uppercase">รูปภาพ</div>
+                                        </th>
+                                        <th scope="col" style="width:20%">
+                                            <div class="py-2 text-uppercase">รายการ</div>
+                                        </th>
+                                        <th scope="col" style="width:15%">
+                                            <div class="py-2 text-uppercase">จำนวนเหลือ</div>
+                                        </th>
+                                        <th scope="col" style="width:15%">
+                                            <div class="py-2 text-uppercase">หน่วย</div>
+                                        </th>
+                                        
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% Object.values(disbursement[0].cart.items).forEach(function(item){%>
+                                        <tr style="text-align: center;">
+                                            <td>
+                                                <img class="img-fluid rounded shadow-sm"
+                                                    src="/../images/products/<%=  item.item[0].image%>"
+                                                    style="width:80px;height: 60px;" alt="" />
+                                            </td>
+
+                                            <td class="align-middle " style="text-align: left;">
+                                                <p>รหัส : <%= item.item[0].code%>
+                                                </p>
+                                                <p>ชื่อ : <%= item.item[0].name%>
+                                                </p>
+                                                <span>รายละเอียด : <%= item.item[0].description%></span>
+                                            </td>
+                                            <td class="align-middle">
+                                                <%= item.qty%>
+                                            </td>
+                                            <td class="align-middle">
+                                                <%= item.item[0].unit[0].name%>
+                                            </td>
+
+                                           
+                                        </tr>
+                                        <% }) %>
+                                </tbody>
+                            </table>
+                        </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+
+
+    <%- include('../layout/footer') %>
