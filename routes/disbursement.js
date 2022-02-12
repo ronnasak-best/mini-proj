@@ -198,11 +198,5 @@ router.get('/search/(:id)', (req, res) => {
        
          res.render('disbursement/index', { disbursements: doc ,date:date})
     })
-
- 
-    
-
-
-
 })
 module.exports = router

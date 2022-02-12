@@ -71,7 +71,7 @@ router.get('/disbursement_report/detail/(:id)', (req, res) => {
         }
     }]).exec((err, doc) => {
         //  console.log(doc);
-        res.render('report/disbursement_report', { disbursement: doc })
+        res.render('report/disbursement_report_detail', { disbursement: doc })
     })
 
 
@@ -106,7 +106,7 @@ router.get('/out_of_stock',(req, res, next) => {
 router.get('/almost_stock',(req, res, next) => {
     Product.aggregate([
         {
-            $match: { quantity: { $lt: 10 }}
+            $match: { quantity: {$lt: 50,$gt:0 }}
         }, {
             $lookup: {
                 from: "categorys", // collection name in db
