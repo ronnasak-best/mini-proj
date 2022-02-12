@@ -6,6 +6,7 @@ const Product = require('../models/products')
 const Category = require('../models/category')
 const { customAlphabet } = require('nanoid/non-secure')
 const Unit = require('../models/unit')
+const AuthRouter = require('./auth')
 
 
 
@@ -95,7 +96,7 @@ router.get('/category/:id', async (req, res, next) => {
 
 })
 
-router.get('/add', (req, res, next) => {
+router.get('/add',isAdmin, (req, res, next) => {
     Category.find({status:1}).exec((err, categorys) => {
         Unit.find({status:1}).exec((err, units) => {
             res.render('product/add', { categorys: categorys, units: units })
