@@ -7,7 +7,7 @@ function confirm(id) {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Confirm!'
     }).then((result) => {
         if (result.isConfirmed) {
             window.location = '/disbursement/adminConfirm/'+id
@@ -22,7 +22,7 @@ function cancal(id) {
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Confirm'
     }).then((result) => {
         if (result.isConfirmed) {
             window.location = '/disbursement/adminCancel/'+id

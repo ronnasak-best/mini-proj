@@ -31,6 +31,8 @@ router.get('/', isAdmin, (req, res, next) => {
 })
 
 router.get('/user', (req, res) => {
+    const timeElapsed=Date.now()
+    const today = new Date(timeElapsed)
     Disbursement.aggregate([{
         $match: { user: mongoose.Types.ObjectId(req.user._id) }
     }, {
@@ -49,7 +51,7 @@ router.get('/user', (req, res) => {
         }
     }]).exec((err, doc) => {
         //  console.log(doc);
-        res.render('disbursement/index', { disbursements: doc })
+        res.render('disbursement/index', { disbursements: doc ,date:today.toLocaleDateString()})
     })
 
 

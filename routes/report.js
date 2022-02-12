@@ -83,7 +83,7 @@ router.get('/out_of_stock',(req, res, next) => {
 router.get('/almost_stock',(req, res, next) => {
     Product.aggregate([
         {
-            $match: { quantity: { $lt: 100 }}
+            $match: { quantity: { $lt: 10 }}
         }, {
             $lookup: {
                 from: "categorys", // collection name in db
