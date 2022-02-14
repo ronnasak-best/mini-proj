@@ -20,6 +20,10 @@ router.get('/', (req, res, next) => {
         }
     }]).exec((err, products) => {
         Product.aggregate([{
+            $match: {
+                $and: [{ status: 1 }, { quantity: { $gt: 0 } }]
+            }
+        },{
             $group: { _id: '$category' }
         }, {
             $lookup: {
@@ -56,6 +60,10 @@ router.get('/category/:id', async (req, res, next) => {
     }
     ]).exec((err, products) => {
         Product.aggregate([{
+            $match: {
+                $and: [{ status: 1 }, { quantity: { $gt: 0 } }]
+            }
+        },{
             $group: { _id: '$category' }
         }, {
             $lookup: {

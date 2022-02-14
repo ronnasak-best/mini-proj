@@ -187,6 +187,19 @@ router.post('/update', upload.single("image"), (req, res, next) => {
 
 })
 
+router.put('/status/:id', (req, res, next) => {
+    const id = req.params.id
+    let status = req.body.status
+    if(status == 1){
+        status = 0
+    }else{
+        status = 1
+    }
+    Product.findByIdAndUpdate(id, { status: status}, { useFindAndModify: false }).exec(err => {
+     if (err) console.log(err)
+    })
+
+})
 
 
 

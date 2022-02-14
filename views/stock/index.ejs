@@ -29,7 +29,7 @@
                                             <th>หน่วยนับ</th>
                                             <th>จำนวนคงเหลือ</th>                                          
                                             <th>รายละเอียด</th>
-                                            <th>สถานะ</th>
+                                            
                                             <th>แก้ไข</th>
                                         </tr>
                                     </thead> 
@@ -44,7 +44,6 @@
                                             <td><%= item.unit[0].name%></td>
                                             <td><%= item.quantity%></td>
                                             <td><%= item.description%></td>
-                                            <td><%- item.status ==1 ?'Enabled':'Disabled'%></td>
                                             <td>
                                                 <a href="/stock/stock_detail/<%= item._id%>" type="button" value="<%= item._id%>" class="btn btn-primary"><i class="bi bi-plus"></i>
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">

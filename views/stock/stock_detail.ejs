@@ -54,7 +54,7 @@
                                 <tr class="text-center">
                                     <th>ลำดับ</th>
                                     <th>จำนวนรับเข้า</th>
-                                    <th>ราคารับเข้า</th>
+                                  
                                     <th>วันที่รับเข้า</th>
                                     <th>หมายเหตุ</th>
                                     <th>แก้ไข</th>
@@ -71,9 +71,7 @@
                                         <td>
                                             <%= stock.quantity%>
                                         </td>
-                                        <td>
-                                            <%= stock.price%> ฿
-                                        </td>
+                    
                                         <td>
                                             <%= moment(stock.date).add(543, 'years' ).format("LL")%>
                                         </td>
