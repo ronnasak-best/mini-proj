@@ -7,6 +7,8 @@ const Stock = require('../models/stock')
 router.get('/', (req, res, next) => {
     
     Product.aggregate([{
+        $match: {status :1}
+    },{
         $lookup: {
             from: "categorys", // collection name in db
             localField: "category",

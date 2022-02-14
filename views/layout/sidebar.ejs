@@ -23,6 +23,7 @@
 
 
     <!-- Nav Item - Pages Collapse Menu -->
+    <% if(user.role=='admin') {%>
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsepro" aria-expanded="true"
             aria-controls="collapsepro">
@@ -40,7 +41,14 @@
             </div>
         </div>
     </li>
-
+    <%}else{%>
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="/carts"  aria-expanded="true">   
+            <i class="fas fa-fw fa-shopping-cart"></i>
+            <span>สร้างรายการขอเบิก</span>
+        </a>
+    </li>
+    <%}%>
     <!-- Nav Item - Utilities Collapse Menu -->
     <% if(user.role=='admin') {%>
     <li class="nav-item">

@@ -12,7 +12,6 @@ mongoose.connect(dbUrl,{
 let stockSchema = mongoose.Schema({
     date: { type: Date, default: Date.now  },
     product_id: { type: mongoose.Schema.ObjectId, ref: 'Product'},
-    price: { type: Number, default: 0 },
     quantity:Number,
     description:String,
 })

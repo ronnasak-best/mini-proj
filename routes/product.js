@@ -3,10 +3,10 @@ const router = express.Router() // Express Router
 const mongoose = require('mongoose') // mongoose for mongodb
 const multer = require('multer') // Multer handles file uploads
 const Product = require('../models/products') // Mongoose model
-const Category = require('../models/category') 
+const Category = require('../models/category') //
+const { customAlphabet } = require('nanoid/non-secure') 
 const Unit = require('../models/unit') 
-const { customAlphabet } = require('nanoid/non-secure') // nanoid for generating random strings
-const AuthRouter = require('./auth') // Auth router
+const AuthRouter = require('./auth')
 
 
 
