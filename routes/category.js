@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
 const Category = require('../models/category')
+const Product = require('../models/products')
 const { customAlphabet } = require('nanoid/non-secure')
+const { log } = require('npmlog')
 
 router.get('/',(req,res,next)=>{
     Category.find().exec((err,doc)=>{
@@ -53,9 +55,21 @@ router.post('/update',(req,res,next)=>{
     })
 })
 
-router.post('/status/',(req,res,next)=>{
+router.post('/status/', async(req,res,next)=>{
     const id = req.body.id
     const status = req.body.status
+    const products = await Product.find({category:id})
+    if(status == 'false'){
+        for(let i=0;i<products.length;i++){ 
+            products[i].status = 'false'
+            await products[i].save()
+        }
+    }else if(status == 'true'){
+        for(let i=0;i<products.length;i++){
+            products[i].status = 'true'
+            await products[i].save()
+        }
+    }
     Category.findByIdAndUpdate(id,{status:status},{useFindAndModify:false}).exec(err=>{
         if(err) console.log(err)
     })
