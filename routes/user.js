@@ -90,5 +90,14 @@ router.post("/update", isAdmin, (req, res, next) => {
   )
 })
 
+router.post('/status', isAdmin, (req, res, next) => {
+  const id = req.body.id
+  User.findByIdAndUpdate(id, {status:req.body.status}, { useFindAndModify: false }).exec(
+    (err) => {
+     if(err) {
+       req.session.msg = {type: 'danger',msg: 'เกิดข้อผิดพลาด'}
+     }
+    })
+})
 
 module.exports = router;

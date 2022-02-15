@@ -14,9 +14,8 @@ let categorySchema = mongoose.Schema({
     name:String,
     description:String,
     status: {
-        type: Number,
-        enum: [0, 1],
-        default: 1
+        type: Boolean,
+        default: true
     }
 })
 

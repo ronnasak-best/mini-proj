@@ -32,7 +32,10 @@
                                         <%= unit[i].name%>
                                     </td>
                                     <td>
-                                        <%- unit[i].status ==1 ?'Enabled':'Disabled'%>
+                                        <input onchange="status('<%= unit[i]._id%>')"
+                                                    data-size="xs" data-onstyle="success" data-offstyle="danger"
+                                                    id="<%= unit[i]._id%>" type="checkbox" data-toggle="toggle"
+                                                    <%=unit[i].status==true ?'checked':''%> >
                                     </td>
                                     <td>
                                         <a href="/unit/edit/<%= unit[i]._id%>" type="button" value="<%= unit[i]._id%>"
@@ -53,12 +56,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
 
     </div>
     <!-- /.container-fluid -->

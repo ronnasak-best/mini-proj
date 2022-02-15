@@ -23,7 +23,7 @@ const ReportRouter = require('./routes/report')
 
 passport.use(
     new LocalStrategy((username, password, cb) => {
-        User.findOne({$and:[{username:username},{status:1}]}, (err, user) => {
+        User.findOne({$and:[{username:username},{status:true}]}, (err, user) => {
             if (err) {
                 return cb(err)
             }

@@ -65,11 +65,11 @@
                                 <tbody>
                                     <% Object.values(products).forEach(function(item){%>
                                         <tr class="text-center">
-                                            <td>
-                                                <input onchange="statuse('<%= item._id%>','<%= item.status%>')" data-size="xs"
-                                                    data-onstyle="success" data-offstyle="danger" id="chkToggle1"
-                                                    type="checkbox" data-toggle="toggle" <%= item.status == true ?'checked':''%> >
-                                                 </td>
+                                            <td> <input onchange="status('<%= item._id%>')"
+                                                    data-size="xs" data-onstyle="success" data-offstyle="danger"
+                                                    id="<%= item._id%>" type="checkbox" data-toggle="toggle"
+                                                    <%=item.status==true ?'checked':''%> >
+                                            </td>
                                             <td><img class="card-img-top img-fluid"
                                                     src="/../images/products/<%= item.image%>"
                                                     style="width: 150px;height: 100px;" alt="" /></td>
@@ -124,22 +124,6 @@
                         }
 
                     }
-
-                     function statuse(id,status) {
-                        $.ajax({
-                            url: '/product/status/' + id,
-                            type: 'PUT',
-                            dataType: 'json',
-                            data: {
-                                status:status
-                            },
-                            success: function (data) {
-                                console.log(data);
-                            }
-                        });
-                        
-                    }
-
                 </script>
 
 

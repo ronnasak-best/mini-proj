@@ -43,4 +43,13 @@ router.post('/update',(req,res,next)=>{
         res.redirect('/unit')
     })
 })
+
+router.post('/status',(req,res,next)=>{
+    const id = req.body.id
+    const status = req.body.status
+    Unit.findByIdAndUpdate(id,{status:status},{useFindAndModify:false}).exec(err=>{
+        if(err) console.log(err)
+        
+    })
+})
 module.exports = router

@@ -119,7 +119,6 @@ router.post('/insert', upload.single("image"), async (req, res,) => {
         quantity: req.body.quantity,
         image: req.file.filename,
         description: req.body.description,
-        status: req.body.status
     })
     Product.saveProduct(data, (err) => {
         if (err) console.log(err)
@@ -132,7 +131,7 @@ router.post('/insert', upload.single("image"), async (req, res,) => {
 
 router.get('/edit/(:id)', async(req, res, next) => {
     const edit_id = req.params.id
-    const unit = await Unit.find({status:1})
+    const unit = await Unit.find({status:true})
     Product.aggregate([
         {
             $match: { _id: mongoose.Types.ObjectId(edit_id) }
@@ -176,7 +175,6 @@ router.post('/update', upload.single("image"), (req, res, next) => {
         quantity: req.body.quantity,
         image: filename,
         description: req.body.description,
-        status: req.body.status
     }
     //อัพเดตข้อมูล
     //console.log(category_id)
@@ -187,15 +185,9 @@ router.post('/update', upload.single("image"), (req, res, next) => {
 
 })
 
-router.put('/status/:id', (req, res, next) => {
-    const id = req.params.id
-    let status = req.body.status
-    if(status == 1){
-        status = 0
-    }else{
-        status = 1
-    }
-    Product.findByIdAndUpdate(id, { status: status}, { useFindAndModify: false }).exec(err => {
+router.post('/status/', (req, res, next) => {
+    const id = req.body.id
+    Product.findByIdAndUpdate(id, { status: req.body.status}, { useFindAndModify: false }).exec(err => {
      if (err) console.log(err)
     })
 

@@ -53,6 +53,14 @@ router.post('/update',(req,res,next)=>{
     })
 })
 
+router.post('/status/',(req,res,next)=>{
+    const id = req.body.id
+    const status = req.body.status
+    Category.findByIdAndUpdate(id,{status:status},{useFindAndModify:false}).exec(err=>{
+        if(err) console.log(err)
+    })
+
+})
 
 
 module.exports = router

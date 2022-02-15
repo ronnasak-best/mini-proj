@@ -9,7 +9,7 @@ router.get('/', (req, res, next) => {
     res.locals.count = req.session.cart || 0
     Product.aggregate([{
         $match: {
-            $and: [{ status: 1 }, { quantity: { $gt: 0 } }]
+            $and: [{ status: true }, { quantity: { $gt: 0 } }]
         }
     }, {
         $lookup: {
@@ -21,7 +21,7 @@ router.get('/', (req, res, next) => {
     }]).exec((err, products) => {
         Product.aggregate([{
             $match: {
-                $and: [{ status: 1 }, { quantity: { $gt: 0 } }]
+                $and: [{ status: true }, { quantity: { $gt: 0 } }]
             }
         },{
             $group: { _id: '$category' }
@@ -41,7 +41,7 @@ router.get('/category/:id', async (req, res, next) => {
     res.locals.count = req.session.cart || 0
     Product.aggregate([{
         $match: {
-            $and: [{ status: 1 }, { quantity: { $gt: 0 } }, { category: mongoose.Types.ObjectId(req.params.id) }]
+            $and: [{ status: true }, { quantity: { $gt: 0 } }, { category: mongoose.Types.ObjectId(req.params.id) }]
         }
     }, {
         $lookup: {
@@ -61,7 +61,7 @@ router.get('/category/:id', async (req, res, next) => {
     ]).exec((err, products) => {
         Product.aggregate([{
             $match: {
-                $and: [{ status: 1 }, { quantity: { $gt: 0 } }]
+                $and: [{ status: true }, { quantity: { $gt: 0 } }]
             }
         },{
             $group: { _id: '$category' }

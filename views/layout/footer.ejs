@@ -104,10 +104,23 @@
                 }
             }
         })
-        
-    })
-    
 
+    })
+
+    function status(id) {
+        let status = $('#' + id).prop('checked')
+        $.ajax({
+            url: window.location.pathname + '/status',
+            type: 'POST',
+            data: {
+                id: id,
+                status: status
+            },
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    }
 
 </script>
 
