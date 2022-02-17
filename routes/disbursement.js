@@ -193,7 +193,7 @@ router.get('/search/(:id)', (req, res) => {
         }
 
     },{
-        $match: {"$expr": { $and: [{ "$eq": [{ "$month": "$date" },parseInt(month)] }, { "$eq": [{ "$year": "$date" },parseInt(year)] }] }}
+        $match: {"$expr": { $and: [{ "$eq": [{ "$month": "$date" },parseInt(month)] }, { "$eq": [{ "$year": "$date" },parseInt(year-543)] }] }}
     }]).exec((err, doc) => {
        
          res.render('disbursement/index', { disbursements: doc ,date:date})
