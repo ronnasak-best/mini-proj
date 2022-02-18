@@ -4,7 +4,7 @@ const mongoose = require('mongoose') // mongoose for mongodb
 const multer = require('multer') // Multer handles file uploads
 const Product = require('../models/products') // Mongoose model
 const Category = require('../models/category') //
-const { customAlphabet } = require('nanoid/non-secure')  //
+const { customAlphabet } = require('nanoid/non-secure') //  
 const Unit = require('../models/unit') //
 const AuthRouter = require('./auth') //
 
