@@ -39,8 +39,6 @@ router.get('/disbursement_report', async (req, res, next) => {
             // console.log(doc[i]._id)
             Object.values(doc[i]._id).forEach(function (items) {
                 if (items.status == true) {
-                    console.log(items.item[0]._id)
-                    console.log(items.qty)
                     pro.add(items.item[0], items.item[0]._id, items.qty)
                 }
             })
@@ -52,8 +50,8 @@ router.get('/disbursement_report', async (req, res, next) => {
 
 })
 router.get('/disbursement_report/search/(:start)/(:end)', async(req, res) => {
-    const startDate = req.params.start
-    const endDate = req.params.end
+    const startDate = req.params.start +'-01'
+    const endDate = req.params.end+'-31'
     const categorys = await Category.find({ status: true })
     Disbursement.aggregate([{
         $match: { $and: [{ date: { $gte: new Date(startDate), $lte: new Date(endDate) } }, { status: 1 }] }
@@ -68,13 +66,10 @@ router.get('/disbursement_report/search/(:start)/(:end)', async(req, res) => {
             // console.log(doc[i]._id)
             Object.values(doc[i]._id).forEach(function (items) {
                 if (items.status == true) {
-                    console.log(items.item[0]._id)
-                    console.log(items.qty)
                     pro.add(items.item[0], items.item[0]._id, items.qty)
                 }
             })
         }
-        console.log(pro)
         res.render('report/disbursement_report', { categorys,disbursements: pro, startDate, endDate })
 
     })

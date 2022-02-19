@@ -14,13 +14,13 @@
                                 <div class="col-sm-6 row ">
                                     <div class="col-sm-2"><h5>ค้นหา</h5></div>
                                     <div class="col-sm-4 input-group mb-2">
-                                        <input type="text" class="datepicker form-control" id="startDate" value="<%=startDate || 0 %>">
+                                        <input type="text" class="datepicker form-control" id="startDate" value="">
                                     </div>
-                                    <div class="col-sm-1">ถึง</div>
+                                    <div class="">ถึง</div>
                                     <div class="col-sm-4 input-group mb-2">
-                                        <input type="text" class="datepicker form-control" id="endDate" value="<%= endDate || 0 %>">
+                                        <input type="text" class="datepicker form-control" id="endDate" value="">
                                     </div>
-                                    <button onclick="search()"class="btn btn-danger">ค้นหา</button>
+                                    <button onclick="search()"class="btn btn-primary">ค้นหา</button>
                                   
                                 </div>
                                
@@ -75,8 +75,8 @@
                 </div>
                 <script>
                     function search() {
-                        let startDate = $('#startDate').val()+'-01'
-                        let endDate = $('#endDate').val()+'-31'
+                        const startDate = $('#startDate').val()
+                        const endDate = $('#endDate').val()
                         let url = '/reports/disbursement_report/search/'+startDate+'/'+endDate;
                         window.location.href = url;
                     }
