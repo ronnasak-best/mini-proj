@@ -14,8 +14,13 @@
                                 <div class="col-sm-6 row ">
                                     <div class="col-sm-2"><h5>ค้นหา</h5></div>
                                     <div class="col-sm-4 input-group mb-2">
-                                        <input type="text" class="datepicker form-control" id="date1" value="<%= date%>">
+                                        <input type="text" class="datepicker form-control" id="startDate" value="<%=startDate || 0 %>">
                                     </div>
+                                    <div class="col-sm-1">ถึง</div>
+                                    <div class="col-sm-4 input-group mb-2">
+                                        <input type="text" class="datepicker form-control" id="endDate" value="<%= endDate || 0 %>">
+                                    </div>
+                                    <button onclick="search()"class="btn btn-danger">ค้นหา</button>
                                   
                                 </div>
                                
@@ -27,45 +32,34 @@
                                     <thead>
                                         <tr>
                                             <th>ลำดับ</th>
-                                            <th>เลขที่ใบเบิก</th>
-                                            <th>วันที่เบิก</th>                                           
-                                            <th>วันที่อนุมัติเบิก</th>
-                                            <th>ชื่อ-นามสกุล</th>
-                                            <th>สถานะ</th>
-                                            <th>รายละเอียด</th>
+                                            <th>รหัส</th>
+                                            <th>รายการ</th>                                           
+                                            <th>จำนวนที่เบิก</th>
+                                            <th>หน่วย</th>
+                                        
                                         </tr>
                                     </thead> 
                                     <tbody>
-                                        <% for(let i=0;i < disbursements.length;i++) {%>
-                                        <tr>
-                                            <td><%= i+1%></td>
-                                            <td><%= disbursements[i].bill_number%></td>
-                                            <td><%= moment(disbursements[i].date).add(543, 'years').format("LL") %></td>
-                                            <td><%= moment(disbursements[i].approver_date).add(543, 'years').format("LL") %></td>
-                                            <td><%= disbursements[i].user[0].name%> <%= disbursements[i].user[0].lname%></td>                                            
-                                            <% if(disbursements[i].status == 0)  {%>
-                                                <td style="font-size: 20px;">
-                                                    <div class="badge badge-warning badge-pill">รออนุมัติ</div>
-                                                </td>
-                                            <%}else if(disbursements[i].status == 1)  { %>
-                                                <td style="font-size: 20px;">
-                                                    <div class="badge badge-success badge-pill">อนุมัติ</div>
-                                                </td>
-                                            <%}else if(disbursements[i].status == 2) { %>
-                                                <td style="font-size: 20px;">
-                                                    <div class="badge badge-danger badge-pill">ไม่อนุมัติ</div>
-                                                </td>
-                                            <%} %>   
-                                            <td>
-                                                <a href="/reports/disbursement_report/detail/<%= disbursements[i]._id%>" type="button" value="" class="btn btn-primary"><i class="bi bi-card-checklist"></i>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
-                                                        <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
-                                                        <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
-                                                      </svg>
-                                                </a>
-                                            </td>
-                                        </tr>    
-                                        <% } %>
+                                         
+                                        <% for(let i = 0,j=1; i < categorys.length; i++){ %>
+                                            <tr>
+                                                <td></td>                  
+                                                <td><b>หมวดหมู่ : <%= categorys[i].name %></b></td>                             
+                                            </tr>
+                                            <%  Object.values(disbursements.item).forEach(function(pro){%>
+                                                <%if(pro.item.category == categorys[i]._id){ %>
+                                                    <tr>
+                                                        <td><%= j++%></td>
+                                                        <td><%= pro.item.code%></td>
+                                                        <td><%= pro.item.name%></td>
+                                                        <td><%= pro.qty%></td>
+                                                        <td><%= pro.item.unit[0].name%></td>
+                                                    </tr>    
+                                                <% } %>
+                                                
+                                            <% }) %>
+                                        <% }%>
+                                        
                                     </tbody>
                                 </table>
                             </div>
@@ -80,10 +74,12 @@
 
                 </div>
                 <script>
-                    document.getElementById('date1').onchange = function() {
-                    let url = "/reports/disbursement_report/search/" + $(this).val() // get selected value
-                             window.location = url            
-                    } 
+                    function search() {
+                        let startDate = $('#startDate').val()+'-01'
+                        let endDate = $('#endDate').val()+'-31'
+                        let url = '/reports/disbursement_report/search/'+startDate+'/'+endDate;
+                        window.location.href = url;
+                    }
                   </script>
                 <!-- /.container-fluid -->
 <%- include('../layout/footer') %>

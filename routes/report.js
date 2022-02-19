@@ -2,86 +2,104 @@ const express = require('express')
 const router = express.Router()
 const Disbursement = require('../models/disbursement')
 const Product = require('../models/products')
+const Category = require('../models/category')
 const mongoose = require('mongoose')
 
-router.get('/disbursement_report',(req, res, next) => {
-    const timeElapsed=Date.now()
-    const today = new Date(timeElapsed)
+function Pro(proOld) {
+    this.item = proOld.item || {}
+    this.add = function (item, id, qty) {
+        let dsr = this.item[id]
+        if (!dsr) {
+            dsr = this.item[id] = {
+                item: item,
+                qty: 0,
+            }
+            dsr.qty = qty
+        }
+        else {
+            dsr.qty += qty
+        }
+    }
+
+}
+
+router.get('/disbursement_report', async (req, res, next) => {
+    const timeElapsed = Date.now();
+    const today = new Date(timeElapsed);
+    const categorys = await Category.find({ status: true })
     Disbursement.aggregate([{
-        $lookup: {
-            from: 'users',
-            localField: 'user',
-            foreignField: '_id',
-            as: 'user'
+        $match: { status: 1 }
+    },
+    {
+        $group: { _id: "$cart.items", }
+    }
+    ]).exec((err, doc) => {
+        let pro = new Pro({})
+        for (let i = 0; i < doc.length; i++) {
+            // console.log(doc[i]._id)
+            Object.values(doc[i]._id).forEach(function (items) {
+                if (items.status == true) {
+                    console.log(items.item[0]._id)
+                    console.log(items.qty)
+                    pro.add(items.item[0], items.item[0]._id, items.qty)
+                }
+            })
         }
-    }, {
-        $lookup: {
-            from: 'users',
-            localField: 'approver',
-            foreignField: '_id',
-            as: 'approver'
-        }
-    }]).exec((err, doc) => {
-        res.render('report/disbursement_report', { disbursements: doc,date:today.toLocaleDateString() })
+
+        res.render('report/disbursement_report', { categorys, disbursements: pro, startDate: today.toISOString().slice(0, 10), endDate: today.toISOString().slice(0, 10) })
+
     })
 
 })
-router.get('/disbursement_report/search/(:id)', (req, res) => {
-    let date = req.params.id
-    let date_split = date.split('-')
-    let year = date_split[0]
-    let month = date_split[1]
+router.get('/disbursement_report/search/(:start)/(:end)', async(req, res) => {
+    const startDate = req.params.start
+    const endDate = req.params.end
+    const categorys = await Category.find({ status: true })
     Disbursement.aggregate([{
-        $lookup: {
-            from: 'users',
-            localField: 'user',
-            foreignField: '_id',
-            as: 'user'
+        $match: { $and: [{ date: { $gte: new Date(startDate), $lte: new Date(endDate) } }, { status: 1 }] }
+        // $match: { "$expr": { $and: [{ "$eq": [{ "$month": "$date" }, parseInt(month)] }, { "$eq": [{ "$year": "$date" }, parseInt(year)] }] } }
+    },
+    {
+        $group: { _id: "$cart.items", }
+    }
+    ]).exec((err, doc) => {
+        let pro = new Pro({})
+        for (let i = 0; i < doc.length; i++) {
+            // console.log(doc[i]._id)
+            Object.values(doc[i]._id).forEach(function (items) {
+                if (items.status == true) {
+                    console.log(items.item[0]._id)
+                    console.log(items.qty)
+                    pro.add(items.item[0], items.item[0]._id, items.qty)
+                }
+            })
         }
-    }, {
-        $lookup: {
-            from: 'users',
-            localField: 'approver',
-            foreignField: '_id',
-            as: 'approver'
-        }
+        console.log(pro)
+        res.render('report/disbursement_report', { categorys,disbursements: pro, startDate, endDate })
 
-    },{
-        $match: {"$expr": { $and: [{ "$eq": [{ "$month": "$date" },parseInt(month)] }, { "$eq": [{ "$year": "$date" },parseInt(year)] }] }}
-    }]).exec((err, doc) => {
-         res.render('report/disbursement_report', { disbursements: doc ,date:date})
     })
 })
-router.get('/disbursement_report/detail/(:id)', (req, res) => {
-    Disbursement.aggregate([{
-        $match: { _id: mongoose.Types.ObjectId(req.params.id) }
-    }, {
-        $lookup: {
-            from: 'users',
-            localField: 'user',
-            foreignField: '_id',
-            as: 'user'
-        }
-    }, {
-        $lookup: {
-            from: 'users',
-            localField: 'approver',
-            foreignField: '_id',
-            as: 'approver'
-        }
-    }]).exec((err, doc) => {
-        //  console.log(doc);
-        res.render('report/disbursement_report_detail', { disbursement: doc })
-    })
 
 
-})
 
 
-router.get('/out_of_stock',(req, res, next) => {
+
+
+
+
+
+
+
+
+
+
+
+
+
+router.get('/out_of_stock', (req, res, next) => {
     Product.aggregate([
         {
-            $match: { quantity: { $eq: 0 }}
+            $match: { quantity: { $eq: 0 } }
         }, {
             $lookup: {
                 from: "categorys", // collection name in db
@@ -98,15 +116,15 @@ router.get('/out_of_stock',(req, res, next) => {
                 as: "unit"
             }
         }]).exec((err, doc) => {
-        res.render('report/out_of_stock', { products: doc })
-    })
+            res.render('report/out_of_stock', { products: doc })
+        })
 
 })
 
-router.get('/almost_stock',(req, res, next) => {
+router.get('/almost_stock', (req, res, next) => {
     Product.aggregate([
         {
-            $match: { quantity: {$lt: 50,$gt:0 }}
+            $match: { quantity: { $lt: 50, $gt: 0 } }
         }, {
             $lookup: {
                 from: "categorys", // collection name in db
@@ -123,8 +141,8 @@ router.get('/almost_stock',(req, res, next) => {
                 as: "unit"
             }
         }]).exec((err, doc) => {
-        res.render('report/almost_stock', { products: doc })
-    })
+            res.render('report/almost_stock', { products: doc })
+        })
 
 })
 

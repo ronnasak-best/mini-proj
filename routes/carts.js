@@ -103,7 +103,8 @@ router.get('/add-to-cart/:id', function (req, res) {
         }else{
             req.session.cart = cart
             res.redirect(req.get('referer'))
-        }    
+        }
+        console.log(req.session.cart)
     })
 })
 
