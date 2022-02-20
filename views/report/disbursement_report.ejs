@@ -4,7 +4,7 @@
 
                     <!-- Page Heading -->
                     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">รายงานสรุปใบเบิก</h1>
+                        <h1 class="h3 mb-0 text-gray-800">รายงานประจำ <%=startDate%> - <%=endDate%></h1>
                      
                     </div>
 
@@ -44,7 +44,8 @@
                                         <% for(let i = 0,j=1; i < categorys.length; i++){ %>
                                             <tr>
                                                 <td></td>                  
-                                                <td><b>หมวดหมู่ : <%= categorys[i].name %></b></td>                             
+                                                <td colspan="4"><b>หมวดหมู่ : <%= categorys[i].name %></b></td>      
+                                                        
                                             </tr>
                                             <%  Object.values(disbursements.item).forEach(function(pro){%>
                                                 <%if(pro.item.category == categorys[i]._id){ %>

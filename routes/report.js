@@ -22,10 +22,27 @@ function Pro(proOld) {
     }
 
 }
+function getDate(date) {
+    const months_th = ["มกราคม", "กุมภาพันธ์", "มีนาคม", "เมษายน", "พฤษภาคม", "มิถุนายน", "กรกฎาคม", "สิงหาคม", "กันยายน", "ตุลาคม", "พฤศจิกายน", "ธันวาคม",];
+
+    let dates = date.split('-')
+    let month = parseInt(dates[1])
+    let year = parseInt(dates[0]) + 543
+    Object.values(months_th).forEach(function (months, index) {
+        index = index + 1
+        if (index == month) {
+            month = months
+
+        }
+
+    })
+    return month + ' ' + year
+}
 
 router.get('/disbursement_report', async (req, res, next) => {
     const timeElapsed = Date.now();
-    const today = new Date(timeElapsed);
+    const today = new Date(timeElapsed)
+    const date = getDate(today.toISOString().slice(0, 10))
     const categorys = await Category.find({ status: true })
     Disbursement.aggregate([{
         $match: { status: 1 }
@@ -44,14 +61,14 @@ router.get('/disbursement_report', async (req, res, next) => {
             })
         }
 
-        res.render('report/disbursement_report', { categorys, disbursements: pro, startDate: today.toISOString().slice(0, 10), endDate: today.toISOString().slice(0, 10) })
+        res.render('report/disbursement_report', { categorys, disbursements: pro, startDate: '', endDate: date })
 
     })
 
 })
-router.get('/disbursement_report/search/(:start)/(:end)', async(req, res) => {
-    const startDate = req.params.start +'-01'
-    const endDate = req.params.end+'-31'
+router.get('/disbursement_report/search/(:start)/(:end)', async (req, res) => {
+    const startDate = req.params.start + '-01'
+    const endDate = req.params.end + '-31'
     const categorys = await Category.find({ status: true })
     Disbursement.aggregate([{
         $match: { $and: [{ date: { $gte: new Date(startDate), $lte: new Date(endDate) } }, { status: 1 }] }
@@ -70,7 +87,7 @@ router.get('/disbursement_report/search/(:start)/(:end)', async(req, res) => {
                 }
             })
         }
-        res.render('report/disbursement_report', { categorys,disbursements: pro, startDate, endDate })
+        res.render('report/disbursement_report', { categorys, disbursements: pro, startDate: getDate(startDate), endDate: getDate(endDate) })
 
     })
 })

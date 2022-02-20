@@ -8,7 +8,7 @@ const AuthRouter = require('./auth')
 
 
 router.get('/', isAdmin, (req, res, next) => {
-    const timeElapsed=Date.now()
+    const timeElapsed = Date.now()
     const today = new Date(timeElapsed)
     Disbursement.aggregate([{
         $lookup: {
@@ -25,13 +25,13 @@ router.get('/', isAdmin, (req, res, next) => {
             as: 'approver'
         }
     }]).exec((err, doc) => {
-        res.render('disbursement/index', { disbursements: doc ,date:today.toLocaleDateString()})
+        res.render('disbursement/index', { disbursements: doc, date: today.toLocaleDateString() })
     })
 
 })
 
 router.get('/user', (req, res) => {
-    const timeElapsed=Date.now()
+    const timeElapsed = Date.now()
     const today = new Date(timeElapsed)
     Disbursement.aggregate([{
         $match: { user: mongoose.Types.ObjectId(req.user._id) }
@@ -51,7 +51,7 @@ router.get('/user', (req, res) => {
         }
     }]).exec((err, doc) => {
         //  console.log(doc);
-        res.render('disbursement/index', { disbursements: doc ,date:today.toLocaleDateString()})
+        res.render('disbursement/index', { disbursements: doc, date: today.toLocaleDateString() })
     })
 
 
@@ -97,22 +97,23 @@ router.get('/adminConfirm/(:id)', (req, res, next) => {
 })
 
 router.get('/adminCancel/(:id)', async (req, res, next) => {
-
+    const update_id = req.params.id
     //ข้อมูลใหม่ที่ถูกส่งมาจากฟอร์มแก้ไข
     const carts = await Disbursement.findOne({ _id: req.params.id })
-    console.log(carts.cart.items);
     Object.values(carts.cart.items).forEach(async function (item) {
-
-        try {
-            const product = await Product.find({ _id: item.item[0]._id })
-            const data = { quantity: product[0].quantity + item.qty };
-            await Product.findByIdAndUpdate(item.item[0]._id, data, { useFindAndModify: false })
-        }
-        catch {
-            res.status(400).send({ msg: 'error' })
-        }
+        if (item.status == true) {
+            let dd = 'cart.items.' + item.item[0]._id + '.status'
+            await Disbursement.findByIdAndUpdate(update_id, { $set: { [dd]: false } }, { useFindAndModify: false })
+            try {
+                const product = await Product.find({ _id: item.item[0]._id })
+                const data = { quantity: product[0].quantity + item.qty };
+                await Product.findByIdAndUpdate(item.item[0]._id, data, { useFindAndModify: false })
+            }
+            catch {
+                res.status(400).send({ msg: 'error' })
+            }
+        } 
     })
-    const update_id = req.params.id
     let data = {
         approver: req.user._id,
         status: 2
@@ -123,7 +124,7 @@ router.get('/adminCancel/(:id)', async (req, res, next) => {
     })
 })
 router.get('/pending', (req, res) => {
-    const timeElapsed=Date.now()
+    const timeElapsed = Date.now()
     const today = new Date(timeElapsed)
     Disbursement.aggregate([{
         $match: { status: 0 }
@@ -143,11 +144,11 @@ router.get('/pending', (req, res) => {
         }
     }]).exec((err, doc) => {
         //  console.log(doc);
-        res.render('disbursement/index', { disbursements: doc ,date:today.toLocaleDateString()})
+        res.render('disbursement/index', { disbursements: doc, date: today.toLocaleDateString() })
     })
 })
 router.get('/disapproved', (req, res) => {
-    const timeElapsed=Date.now()
+    const timeElapsed = Date.now()
     const today = new Date(timeElapsed)
     Disbursement.aggregate([{
         $match: { status: 2 }
@@ -167,7 +168,7 @@ router.get('/disapproved', (req, res) => {
         }
     }]).exec((err, doc) => {
         //  console.log(doc);
-        res.render('disbursement/index', { disbursements: doc ,date:today.toLocaleDateString()})
+        res.render('disbursement/index', { disbursements: doc, date: today.toLocaleDateString() })
     })
 })
 
@@ -192,11 +193,44 @@ router.get('/search/(:id)', (req, res) => {
             as: 'approver'
         }
 
-    },{
-        $match: {"$expr": { $and: [{ "$eq": [{ "$month": "$date" },parseInt(month)] }, { "$eq": [{ "$year": "$date" },parseInt(year-543)] }] }}
+    }, {
+        $match: { "$expr": { $and: [{ "$eq": [{ "$month": "$date" }, parseInt(month)] }, { "$eq": [{ "$year": "$date" }, parseInt(year - 543)] }] } }
     }]).exec((err, doc) => {
-       
-         res.render('disbursement/index', { disbursements: doc ,date:date})
+
+        res.render('disbursement/index', { disbursements: doc, date: date })
     })
+})
+
+router.post('/approve', async(req, res,) => {
+    const update_id = req.body.id
+    const item_id = req.body.item_id
+    const status = req.body.status
+    const qty = req.body.qty
+
+    if (status == 'false') {
+        let dd = 'cart.items.' + item_id + '.status'
+        await Disbursement.findByIdAndUpdate(update_id, { $set: { [dd]: false } }, { useFindAndModify: false })
+        try {
+            const product = await Product.find({ _id:item_id })
+            const data = { quantity: product[0].quantity + parseInt(qty) };
+            await Product.findByIdAndUpdate(item_id, data, { useFindAndModify: false })
+        }
+        catch {
+            res.status(400).send({ msg: 'error' })
+        }
+    } 
+    else{
+        let dd = 'cart.items.' + item_id + '.status'
+        await Disbursement.findByIdAndUpdate(update_id, { $set: { [dd]: true } }, { useFindAndModify: false })
+        try {
+            const product = await Product.find({ _id:item_id })
+            const data = { quantity: product[0].quantity - parseInt(qty) };
+            await Product.findByIdAndUpdate(item_id, data, { useFindAndModify: false })
+        }
+        catch {
+            res.status(400).send({ msg: 'error' })
+        }
+    }
+
 })
 module.exports = router
