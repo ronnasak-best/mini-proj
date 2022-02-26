@@ -1,13 +1,14 @@
 
 function confirm(id) {
     Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'คุณต้องการอนุมัติ ?',
+        text: "เมื่อกดอนุมัติไปแล้วไม่สามารถย้อนกลับได้!!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Confirm!'
+        confirmButtonText: 'ยืนยัน',
+        cancelButtonText: 'ยกเลิก'
     }).then((result) => {
         if (result.isConfirmed) {
             window.location = '/disbursement/adminConfirm/'+id
@@ -16,13 +17,14 @@ function confirm(id) {
 }
 function cancal(id) {
     Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'คุณต้องการยกเลิก ?',
+        text: "เมื่อกดยกเลิกไปแล้วไม่สามารถย้อนกลับได้!!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Confirm'
+        cancelButtonText: 'ยกเลิก',
+        confirmButtonText: 'ยืนยัน'
     }).then((result) => {
         if (result.isConfirmed) {
             window.location = '/disbursement/adminCancel/'+id
@@ -32,13 +34,14 @@ function cancal(id) {
 
 function defaultpass(id) {
     Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'ต้องการรีเซ็คพาสเวิร์ดใช่หรือไม่ ?',
+        text: "เมื่อกดยืนยันไปแล้วไม่สามารถย้อนกลับได้ !!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        cancelButtonText: 'ยกเลิก',
+        confirmButtonText: 'ยืนยัน'
     }).then((result) => {
         if (result.isConfirmed) {
             
