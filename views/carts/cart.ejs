@@ -18,15 +18,7 @@
         </div>
 
         <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <% if(user.role=='user') { %>
-                <a href="/checkout" class="btn btn-primary">ยืนยัน รายการเบิก</a>
-                <% }else if (user.role=='admin'){%>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                    ยืนยัน รายการเบิก
-                </button>
-                <% }%>
-            </div>
+            
             <div class="card-body">
                 <div class="table-responsive  ">
                     <table class="table " id=" dataTable" width="100%" cellspacing="0">
@@ -102,7 +94,18 @@
                         </tbody>
                     </table>
                 </div>
+                <hr>
+                <div class="text-right">
+                    <% if(user.role=='user') { %>
+                        <a onclick="userconfirm()" class="btn btn-primary">ยืนยัน รายการเบิก</a>
+                        <% }else if (user.role=='admin'){%>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
+                            ยืนยัน รายการเบิก
+                        </button>
+                        <% }%>
+                </div>
             </div>
+           
         </div>
 
 
