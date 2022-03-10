@@ -3,16 +3,19 @@ const mongoose = require('mongoose')
 
 // เชื่อมไปยัง MongoDB
 const dbUrl = 'mongodb://localhost:27017/InventoryDB'
-mongoose.connect(dbUrl,{
-    useNewUrlParser:true,
-    useUnifiedTopology:true
-}).catch(err=>console.log(err))
+mongoose.connect(dbUrl, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).catch(err => console.log(err))
 
 // ออกแบบ Schema
 let categorySchema = mongoose.Schema({
-    category_id:String,
-    name:String,
-    description:String,
+    category_id: {
+        type: String,
+        unique: true
+    },
+    name: String,
+    description: String,
     status: {
         type: Boolean,
         default: true
@@ -20,12 +23,12 @@ let categorySchema = mongoose.Schema({
 })
 
 // สร้างโมเดล
-let Category = mongoose.model("categorys",categorySchema)
+let Category = mongoose.model("categorys", categorySchema)
 
 // ส่งออกโมเดล
 module.exports = Category
 
 //ออกแบบฟังก์ชั่นสำหรับบันทึกข้อมูล
-module.exports.saveCategory=function(model,data){
+module.exports.saveCategory = function (model, data) {
     model.save(data)
 }

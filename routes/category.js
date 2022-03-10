@@ -16,9 +16,9 @@ router.get('/add',(req,res,next)=>{
 })
 
 router.post('/insert',(req,res,next)=>{
-    const nanoid = customAlphabet('12', 2)
+    const nanoid = Math.floor(Math.random() * 100)
     let data = new Category({
-        category_id:nanoid(),
+        category_id:nanoid,
         name:req.body.name,
         description:req.body.description,
         status:req.body.status

@@ -33,8 +33,9 @@ router.get('/', (req, res, next) => {
      })
     Disbursement.saveDisbursement(data, (err) => {
         if (err) console.log(err)
-        res.redirect('/product')
         req.session.cart=null
+        res.redirect('/disbursement/user')
+        
     })
    
 })
@@ -68,7 +69,7 @@ router.post('/admin',(req, res, next) => {
      Disbursement.saveDisbursement(data, (err) => {
          if (err) console.log(err)
        req.session.cart = null
-       res.redirect('/product')
+       res.redirect('/disbursement')
     })
    
 })
