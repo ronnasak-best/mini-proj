@@ -87,7 +87,7 @@ router.get('/disbursement_report/search/(:start)/(:end)', async (req, res) => {
                 }
             })
         }
-        res.render('report/disbursement_report', { categorys, disbursements: pro, startDate: getDate(startDate), endDate: getDate(endDate) })
+        res.render('report/disbursement_report', { categorys, disbursements: pro, startDate: getDate(startDate), endDate: getDate(endDate ) })
 
     })
 })
